@@ -11,8 +11,7 @@ def parse_cl_args():
     parser.add_argument("-a", type=float, default=2.0, dest='a', help='woa algorithm specific parameter, controls search spread') 
     parser.add_argument("-b", type=float, default=0.5, dest='b', help='woa algorithm specific parameter, controls spiral,') 
     parser.add_argument("-c", type=float, default=None, dest='c', help='absolute solution constraint value') 
-    parser.add_argument("-func", type=str, default='goldstein', dest='func', help='function to be optimized, options: ackley, levi, beale, goldstein') 
-    parser.add_argument("-r", type=float, default=0.25, dest='r', help='resolution of function meshgrid') 
+    parser.add_argument("-func", type=str, default='beale', dest='func', help='function to be optimized, options: ackley, levi, beale, goldstein') 
     parser.add_argument("-t", type=float, default=0.1, dest='t', help='animate sleep time, lower values increase animation speed, default: 0.1') 
     parser.add_argument("-max", default=False, dest='max', action='store_true', help='enable for maximization, default: False (minimization)') 
 

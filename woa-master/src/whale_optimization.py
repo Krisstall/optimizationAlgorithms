@@ -22,19 +22,18 @@ class WhaleOptimization():
                                                                  
         for s in ranked_sol[1:]:
             if np.random.uniform(0.0, 1.0) > 0.5:                                      
-                A = self._compute_A()                                                     
-                norm_A = np.linalg.norm(A)                                                
-                if norm_A < 1.0:                                                          
-                    new_s = self._encircle(s, best_sol, A)                                
+                A = self._compute_A() #sonraki pozisyonu hesaplamak için WAO ya özel değişkeni hesaplıyoruz                                            
+                norm_A = np.linalg.norm(A)    #sonuca göre rastgele vaktör üretiyoruz                                            
+                if norm_A < 1.0:                                                 
+                    new_s = self._encircle(s, best_sol, A)#sonuç tatmin edici ise alanımızı daraltıyoruz                           
                 else:                                                                     
-                    ###select random sol                                                  
-                    random_sol = self._sols[np.random.randint(self._sols.shape[0])]       
-                    new_s = self._search(s, random_sol, A)                                
+                    random_sol = self._sols[np.random.randint(self._sols.shape[0])]    #sonuçların arasından rastgele seçiyoruz   
+                    new_s = self._search(s, random_sol, A)    #sonuç tatmin edici değil ise başka bir sonuç seçip aramaya devam ediyoruz                            
             else:                                                                         
-                new_s = self._attack(s, best_sol)                                         
-            new_sols.append(self._constrain_solution(new_s))
+                new_s = self._attack(s, best_sol)      #spiral çizerek hedefe yaklaşır                                   
+            new_sols.append(self._constrain_solution(new_s)) # mesafeyi diziye kaydediyoruz
 
-        self._sols = np.stack(new_sols)
+        self._sols = np.stack(new_sols) #oluşan yeni sonuçları bir sonraki iterasyonda kullanmak için sols a ekliyoruz
         self._a -= self._a_step
 
     def _init_solutions(self, nsols):
@@ -83,11 +82,11 @@ class WhaleOptimization():
         return 2.0*np.random.uniform(0.0, 1.0, size=2)
                                                                  
     def _encircle(self, sol, best_sol, A):
-        D = self._encircle_D(sol, best_sol)
+        D = self._encircle_D(sol, best_sol) # D parametramize ihtiyacımız var
         return best_sol - np.multiply(A, D)
                                                                  
     def _encircle_D(self, sol, best_sol):
-        C = self._compute_C()
+        C = self._compute_C() # C parametremize ihtiyacımız var
         D = np.linalg.norm(np.multiply(C, best_sol)  - sol)
         return D
 
